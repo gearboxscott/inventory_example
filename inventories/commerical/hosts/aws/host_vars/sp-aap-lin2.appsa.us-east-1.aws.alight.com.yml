@@ -1,0 +1,21 @@
+---
+# variables only for host sp-aap-lin2.appsa.us-east-1.aws.alight.com
+
+ansible_user: ec2-user
+ansible_ssh_private_key_file: '~/.ssh/ansible-key.pem'
+become_user: root
+become_method: sudo
+
+# Global Variable (being overwritten)
+
+host_var1: BIRD
+host_var2: RABBIT
+host_var3: SQUIRREL
+
+where_am_i: 'sp-aap-lin2 host_vars file'
+
+# Place Holder Variables
+placeholder_var1: sp-aap-lin2
+placeholder_var2: ELK 
+placeholder_var3: BASS 
+...

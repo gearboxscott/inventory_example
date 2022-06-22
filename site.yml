@@ -1,0 +1,77 @@
+---
+# site.yml for var_mockup
+
+- name: Project var_mockup
+  hosts: all
+  gather_facts: no
+
+  pre_tasks:
+
+  - name: show all variables before they are overwritten, merged, etc by hosts before connecting to host
+    block:
+
+    - name: Variable Before They Presented To A Host
+      debug:
+        msg: |
+          HOSTNAME: {{ ansible_host }}
+          WHERE DID THE VARIABLES COME FROM: {{ where_am_i }}
+
+          === FROM inventories/commerical/hosts/aws/group_vars/all/all.yml
+          
+          global_var1         => {{ global_var1 }}
+          global_var2         => {{ global_var2 }}
+          global_var3         => {{ global_var3 }}
+
+          === EXPECTED TO BE OVERRIDDEN BY HOST VARS FILES
+
+          placeholder_var1    => {{ placeholder_var1 }}
+          placeholder_var2    => {{ placeholder_var2 }}
+          placeholder_var3    => {{ placeholder_var3 }}
+
+          === FROM inventories/commerical/hosts/aws/group_vars/platform_linux/all.yml
+
+          platform_linux_var1 => {{ platform_linux_var1 }}
+          platform_linux_var2 => {{ platform_linux_var2 }}
+          platform_linux_var3 => {{ platform_linux_var3 }}
+
+          === FROM inventories/commerical/hosts/aws/host_vars/sp-aap-lin1.appsa.us-east-1.aws.alight.com/all.yml
+
+          host_var1           => {{ host_var1 }}
+          host_var2           => {{ host_var2 }}
+          host_var3           => {{ host_var3 }}
+
+    delegate_to: localhost
+
+  tasks:
+  - name: Change the value of a group_vars variable
+    set_fact:
+      prior_global_var1: '{{ global_var1 }}'
+      global_var1: 'AMERICAN RAPTORS RUGBY'
+
+  - name: Show group_vars variable was changed
+    debug:
+      msg: |
+        global_var1 is now set to {{ global_var1 }} from {{ prior_global_var1 }}  
+
+  - name: call a role to show variable overwritting based on conditionals
+    include_role:
+      name: role_example
+      
+  - name: get the custom fact from the target host
+    block:
+
+    - name: get the custom facts from /etc/ansible/facts.d
+      setup:
+        gather_subset:
+          - facter
+    
+    - name: print the custom fact
+      debug:
+        msg: |
+          custom fact says =>  
+          {{ ansible_local.preferences.general.todays_message }}
+
+          date from host =>
+          {{ ansible_local.get_date.date }}
+
+    when: "'sp-aap-lin1' in inventory_hostname"

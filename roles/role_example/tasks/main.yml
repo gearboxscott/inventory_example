@@ -1,0 +1,45 @@
+---
+# tasks file for role_example
+
+- name: print variables one
+  debug:
+    msg: |
+      {{ role_example_var1 }} {{ role_example_var2 }}
+
+- name: overwrite the variables in defaults/main.yml
+  set_fact:
+    role_example_var1: 'batter'
+    role_example_var2: 'up'
+
+- name: print variables two
+  debug:
+    msg: |
+      {{ role_example_var1 }} {{ role_example_var2 }}
+
+- name: use a variable from group_vars all.yml
+  debug:
+    msg: |
+      global_var1 is set to {{ global_var1 }}
+
+- name: overwrite a host vars variable based on hostname sp-aap-lin1
+  set_fact:
+    prior_global_var2: '{{ global_var2 }}'
+    global_var2: 'COLORADO RAPIDS'
+  when: inventory_hostname == 'sp-aap-lin1.appsa.us-east-1.aws.alight.com'
+
+- name: overwrite a host vars variable based on hostname sp-aap-lin2
+  set_fact:
+    prior_global_var2: '{{ global_var2 }}'
+    global_var2: 'COLORADO ROCKIES'
+  when: inventory_hostname == 'sp-aap-lin2.appsa.us-east-1.aws.alight.com'
+
+- name: overwrite a host vars variable based on hostname sp-aap-lin3
+  set_fact:
+    prior_global_var2: '{{ global_var2 }}'
+    global_var2: 'DENVER NUGGETS'
+  when: inventory_hostname == 'sp-aap-lin3.appsa.us-east-1.aws.alight.com'
+
+- name: use a variable from group_vars all.yml
+  debug:
+    msg: |
+      global_var2 is set to {{ global_var2 }} from {{ prior_global_var2 }}

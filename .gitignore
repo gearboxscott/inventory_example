@@ -1,0 +1,7 @@
+*.retry
+roles/galaxy/*
+*.pyc
+collections/*
+!collections/requirements.yml
+.DS_Store
+ansible.cfg

@@ -1,0 +1,9 @@
+---
+# This files contains variable only for hosts in the group platform_linux
+
+platform_linux_var1: 'PIKES PEAK'
+platform_linux_var2: 'LONGS PEAK'
+platform_linux_var3: 'MOUNT MEEKER'
+
+where_am_i: 'platform_linux'
+...

@@ -1,0 +1,5 @@
+---
+# defaults file for role_example
+
+role_example_var1: hello
+role_example_var2: world

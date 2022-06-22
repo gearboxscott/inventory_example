@@ -1,0 +1,14 @@
+---
+# This variable only apply to this host
+
+global_var1: 'DENVER BRONCOS'
+global_var2: 'COLORADO AVALANCHE'
+global_var3: 'COLOARDO MAMMOTH'
+
+# Place Holder Variables
+placeholder_var1: 
+placeholder_var2: 
+placeholder_var3: 
+
+where_am_i: 'group_vars'
+...
